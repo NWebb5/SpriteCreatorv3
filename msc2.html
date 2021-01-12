@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MAGE Sprite Creator v2.0</title>
+    <link rel = "stylesheet" href = "stylesheet.css"></link>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <td class = "title">SPRITE</td>
+        <td class = "title">PALETTE</td>
+        <td class = "title">FRAMES</td>
+      </tr>
+      <tr>
+        <td>
+          <div id = "ui" class = "ui-block">
+            <div class = "ui-box">
+              <label for = "inputSpriteName">Sprite Name</label>
+              <input type = "text" id = "inputSpriteName" value = "newSprite"/>
+              <button id = "buttonSaveSprite">Save</button>
+              <br>
+              <label for = "inputSpriteFile">Load Sprite</label>
+              <input type = "file" id = "inputSpriteFile"/>
+            </div>
+
+            <div class = "ui-box">
+              <label for = "inputSpriteWidth">Sprite (w, h)</label>
+              <input type = "number" id ="inputSpriteWidth" min = 1 max = 16 value = "1"/>
+              <input type = "number" id ="inputSpriteHeight" min = 1 max = 16 value = "1"/>
+              <br>
+              <label for = "inputTileWidth">Tile (w, h)</label>
+              <input type = "number" id = "inputTileWidth" min = 1 max = 16 value = "1"/>
+              <input type = "number" id = "inputTileHeight" min = 1 max = 16 value = "1"/>
+              <br>
+              <br>
+              <label for = "inputPixelSize">Pixel Size</label>
+              <input type = "number" id = "inputPixelSize" value = 20 min = 1 max = "256"/>
+              <label for = "buttonRealPixelSize">Real</label>
+              <input type = "checkbox" id = "buttonRealPixelSize"/>
+              <br>
+              <br>
+              <label for = "selectSelectMode">Select Mode</label>
+              <select id = "selectSelectMode" value = "Pixel">
+                <option value = 0>Pixel</option>
+                <option value = 1>Rect</option>
+              </select>
+              <br>
+              <label for = "inputSelect">Selecting</label>
+              <input type = "checkbox" id = "inputSelect"/>
+            </div>
+
+            <div class = "ui-box">
+              <label for = "inputDrawGrid">Draw Grid</label>
+              <input type = "checkbox" id = "inputDrawGrid" checked/>
+              <br>
+              <label for = "inputGridColor">Grid Color</label>
+              <input type = "color" id = "inputGridColor"/>
+              <br>
+              <label for = "inputBackgroundColor">Background Color</label>
+              <input type = "color" id = "inputBackgroundColor" value = "#ffffff"/>
+            </div>
+
+            <div class = "ui-box">
+              <button id = "buttonFlipX">Flip X</button>
+              <button id = "buttonFlipY">Flip Y</button>
+              <button onclick = "Wavify(true, false);">Wavify X</button>
+              <button onclick = "Wavify(false, true);">Wavify Y</button>
+              <button onclick = "Rainbowfy();">Rainbowfy</button>
+              <br>
+              <label for = "inputMirrorX">Mirror X</label>
+              <input type = "checkbox" id = "inputMirrorX"/>
+              <br>
+              <label for = "inputMirrorY">Mirror Y</label>
+              <input type = "checkbox" id = "inputMirrorY"/>
+            </div>
+
+            <div class = "ui-box">
+              <label for = "inputFrameTime">Time per Frame</label>
+              <input type = "number" id = "inputFrameTime" min = 1 max = 65535 value = "200"/>
+              <button id = "buttonAnimate">Play</button>
+              <br>
+              <br>
+              <label for = "inputFrameSwapLeft">Move frame</label>
+              <input type = "number" id = "inputFrameSwapLeft" min = 0 max = 255 class = "swap-input"></input>
+              <label for = "inputFrameSwapRight">after frame</label>
+              <input type = "number" id = "inputFrameSwapRight" min = 0 max = 255 class = "swap-input"></input>
+              <button id = "buttonFrameSwap">Move</button>
+              <br>
+              <br>
+              <button id = "buttonAddFrame">ADD</button>
+              <button id = "buttonDeleteFrame">DELETE</button>
+              <button id = "buttonClearFrame">CLEAR</button>
+            </div>
+
+            <div class = "ui-box">
+              <button onclick = "window.open('./msc2.html', '_blank');">New Tab</button>
+
+              <button onclick = "c.SavePNG();">PNG</button>
+            </div>
+          </div>
+        </div>
+        </td>
+        <td>
+          <div id = "palette" class = "ui-block">
+            <div class = "ui-box">
+              <label for = "inputPaletteName">Palette Name</label>
+              <input type = "text" id = "inputPaletteName" value = "newPalette"/>
+              <button id = "buttonSavePalette">Save</button>
+              <br>
+              <label for = "inputPaletteFile">Load Palette</label>
+              <input type = "file" id = "inputPaletteFile" accept = ".palette"/>
+              <br>
+              <label for = "selectPalette">Current</label>
+              <select id = "selectPalette"></select>
+            </div>
+
+            <div class = "ui-box">
+              <label for = "selectPaletteCombo1">Combine palette</label>
+              <select id = "selectPaletteCombo1"></select>
+              <label for = "selectPaletteCombo2">with</label>
+              <select id = "selectPaletteCombo2"></select>
+              <br>
+              <label for = "inputPaletteCombo1Top">Palette 1 Top</label>
+              <input type = "checkbox" id = "inputPaletteCombo1Top" checked>
+              <label for = "inputPaletteCombo2Top">Palette 2 Top</label>
+              <input type = "checkbox" id = "inputPaletteCombo2Top" checked>
+              <br>
+              <label for = "inputPaletteComboName">Name</label>
+              <input type = "text" id = "inputPaletteComboName"></input>
+              <br>
+              <button onclick = "c.paletteCache.CreatePaletteCombo();">Combine</button>
+            </div>
+
+            <div class = "ui-box">
+              <label for = "inputBlendColor1">Blend Color 1</label>
+              <input type = "color" id = "inputBlendColor1"/>
+              <input type = "text" id = "inputBlendColor1Display" size = 6 value = "000000"/>
+              <br>
+              <label for = "inputBlendColor2">Blend Color 2</label>
+              <input type = "color" id = "inputBlendColor2"/>
+              <input type = "text" id = "inputBlendColor2Display" size = 6 value = "000000"/>
+              <br>
+              <label for = "canvasBlend">Blend Colors</label>
+              <canvas id = "canvasBlend"></canvas>
+              <br>
+              <br>
+              <label for = "inputCopyFromMin">[</label>
+              <input type = "number" id = "inputCopyFromMin" size = "2" min = "0" max = "15"/>
+              <label for = "inputCopyFromMax">,</label>
+              <input type = "number" id = "inputCopyFromMax" size = "2" min = "0" max = "15"/>
+              <label for = "inputCopyToStart">] to</label>
+              <input type = "number" id = "inputCopyToStart" size = "2" min = "0" max = "15"/>
+              <label for = "inputCopyStep">step</label>
+              <input type = "number" id = "inputCopyStep" size = "2" min = "1" max = "15" value = "1"/>
+              <br>
+              <button id = "buttonCopyRange">Copy</button>
+            </div>
+
+            <div class = "ui-box" id = "paletteInput">
+              <label for = "inputPaletteColor">Color</label>
+              <input type = "color" id = "inputPaletteColor"/>
+              <input type = "text" id = "inputPaletteColorDisplay" size = 6 value = "000000"/>
+              <label for = "inputPaletteIndex">Index</label>
+              <input type = "number" id = "inputPaletteIndex" value = "0" min = "0" max = "15"/>
+              <br>
+              <label for = "canvasPalette">Palette Colors</label>
+              <canvas id = "canvasPalette"></canvas>
+              <br>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div id = "previews" class = "ui-block">
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <br>
+
+    <div id = "canvas"><canvas id = "c"></canvas></div>
+
+    <script src = "Canvas.js"></script>
+    <script src = "Color.js"></script>
+    <script src = "PixelGrid.js"></script>
+    <script src = "Palette.js"></script>
+    <script src = "PaletteCache.js"></script>
+    <script src = "InputManager.js"></script>
+    <script src = "Frame.js"></script>
+    <script src = "FrameCache.js"></script>
+
+    <script>
+      const Constants =
+      {
+        NUM_COLORS: 16,
+        PIXELS_PER_SIDE: 16,
+        COLOR_CLEAR: 0x10,
+        MAIN_DIV: document.getElementById('main'),
+        UI_DIV: document.getElementById('ui'),
+        PREVIEW_DIV: document.getElementById('previews'),
+        PALETTE_DIV: document.getElementById('palette'),
+        PALETTE_INPUT_DIV: document.getElementById('paletteInput'),
+        PREVIEW_SIZE: 50,
+        SELECT_PIXEL: 0,
+        SELECT_RECT: 1,
+        REAL_PIXEL_SIZE: 5,
+        PALETTE_CANVAS_SIZE: 20,
+        CreateConst: (o, name, value) =>
+        {
+          Object.defineProperty(o, name, { value, writable: false, enumerable: true, configurable: true });
+        }
+      };
+      Constants.PALETTE_RAINBOW = new Palette('rainbow', [
+        new Color(0xff0000), new Color(0xff6600), new Color(0xffff00), new Color(0x00ff00),
+        new Color(0x00ffff), new Color(0x0000ff), new Color(0xff00ff), new Color(0x990099),
+        new Color(0x000000), new Color(0x000000), new Color(0x000000), new Color(0x000000),
+        new Color(0x000000), new Color(0x000000), new Color(0x000000), new Color(0x000000)]);
+      Constants.PALETTE_RAINBOW_COLORS = 8;
+
+      const Tools =
+      {
+        Arr2d: (w, h, v) =>
+        {
+          return new Array(h).fill(w).map(x => new Array(x).fill(v));
+        },
+        AddUI: (e, div = Constants.UI_DIV) =>
+        {
+          div.appendChild(e);
+          return e;
+        },
+        AddUIBR: (n = 1, div = Constants.UI_DIV) =>
+        {
+          for(var i = 0; i < n; i++)
+            Tools.AddUI(document.createElement('BR'), div);
+        },
+        AddUILabel: (target, text, div = Constants.UI_DIV) =>
+        {
+          const label = document.createElement('LABEL');
+          label.setAttribute('for', target);
+          label.innerText = text;
+          Tools.AddUI(label, div);
+          return label;
+        },
+        AddUIXBase: (type, attribs, listeners = {}, directs = {}, div = Constants.UI_DIV) =>
+        {
+          const element = document.createElement(type);
+          Object.entries(attribs).forEach(([k, v]) => element.setAttribute(k, v));
+          Object.entries(listeners).forEach(([k, v]) => {
+            v = Tools.ToArray(v);
+            v.forEach(fn => element.addEventListener(k, fn, false));
+          });
+          Object.entries(directs).forEach(([k, v]) => element[k] = v);
+          Tools.AddUI(element, div);
+          return element;
+        },
+        AddUISelect: (attribs, listeners = {}, directs = {}, div = Constants.UI_DIV) =>
+        {
+          return Tools.AddUIXBase('SELECT', attribs, listeners, directs, div);
+        },
+        AddUIInput: (attribs, listeners = {}, directs = {}, div = Constants.UI_DIV) =>
+        {
+          return Tools.AddUIXBase('INPUT', attribs, listeners, directs, div);
+        },
+        AddUIButton: (attribs, listeners = {}, directs = {}, div = Constants.UI_DIV) =>
+        {
+          return Tools.AddUIXBase('BUTTON', attribs, listeners, directs, div);
+        },
+        AddPreview: e =>
+        {
+          Constants.PREVIEW_DIV.appendChild(e);
+          return e;
+        },
+        InsertPreview: (e, prev) =>
+        {
+          if(prev)
+          {
+            Constants.PREVIEW_DIV.insertBefore(e, prev);
+            return e;
+          }
+          return Tools.AddPreview(e);
+        },
+        Sleep: ms =>
+        {
+          return new Promise(resolve => setTimeout(resolve, ms));
+        },
+        Clamp: (x, min, max) =>
+        {
+          return Math.min(max, Math.max(x, min));
+        },
+        ToArray: x =>
+        {
+          if(x.constructor === HTMLCollection)
+            return [].slice.call(x);
+          return (x.constructor === Array ? x : [x]);
+        }
+      }
+
+
+
+      async function Rainbowfy()
+      {
+        const adj = (grid, x, y, v) =>
+        {
+          const xmin = x - 1, xmax = x + 1, ymin = y - 1, ymax = y + 1;
+          if(xmin < 0 || ymin < 0 || xmax > grid[0].length - 1 || ymax > grid.length - 1)
+            return true;
+
+          for(var i = ymin; i <= ymax; i++)
+            for(var j = xmin; j <= xmax; j++)
+              if(grid[i][j] === v)
+                return true;
+
+          return false;
+        }
+
+        const black = 0xF;
+        const containsBlack = grid =>
+        {
+          for(var y = 0; y < grid.length; y++)
+            for(var x = 0; x < grid[y].length; x++)
+              if(grid[y][x] === black)
+                return true;
+          return false;
+        }
+
+        c.paletteCache.SetPalette(Constants.PALETTE_RAINBOW );
+
+        //let curStart = 0;
+        let offset = 0;
+
+        for(var i = 0; i < c.frameCache.frames.length; i++)
+        {
+          c.frameCache.SetCurrentFrame(i);
+          let grid = c.frameCache.GetCurrentFrame().grid.grid;
+
+
+
+          // Palette swap algo
+          for(var y = 0; y < grid.length; y++)
+            for(var x = 0; x < grid[y].length; x++)
+              if(grid[y][x] !== Constants.COLOR_CLEAR)
+                grid[y][x] = (grid[y][x] + offset) % Constants.PALETTE_RAINBOW_COLORS;
+
+          offset++;
+
+
+
+          // Concentric fill algo
+          //
+          // for(var y = 0; y < grid.length; y++)
+          //   for(var x = 0; x < grid[y].length; x++)
+          //     if(grid[y][x] != Constants.COLOR_CLEAR)
+          //       grid[y][x] = black;
+          //
+          // let outside = Constants.COLOR_CLEAR, cur = curStart;
+          // while(containsBlack(grid))
+          // {
+          //   console.log("A");
+          //   for(var y = 0; y < grid.length; y++)
+          //     for(var x = 0; x < grid[y].length; x++)
+          //       if(grid[y][x] === black && adj(grid, x, y, outside))
+          //         grid[y][x] = cur;
+          //
+          //   outside = cur;
+          //   cur = (cur + 1) % Constants.PALETTE_RAINBOW_COLORS;
+          // }
+          //
+          // curStart = (curStart + 1) % Constants.PALETTE_RAINBOW_COLORS;
+        }
+
+        c.Draw();
+        c.UpdateCurrentFramePreview();
+      }
+
+      async function Wavify(x, y)
+      {
+        if(c.frameCache.frames.length !== 1)
+        {
+          alert('Can only wavify a single-frame sprite');
+          return;
+        }
+
+        const init =
+        [
+          -2, -2, -1, -1,
+           0,  1,  1,  2,
+           2,  2,  1,  1,
+           0, -1, -1, -2
+        ];
+
+        for(var i = 0; i < init.length; i++)
+        {
+            if(x)
+              c.frameCache.frames[0].ShiftRow(i, init[i]);
+            if(y)
+              c.frameCache.frames[0].ShiftCol(i, init[i]);
+        }
+
+        let offsets =
+        [
+           0,  0, -1,  0,
+          -1, -1,  0, -1,
+           0,  0,  1,  0,
+           1,  1,  0,  1
+        ];
+        // const shifts = [ 1, 0, 1, 0, 0, -1, 0, -1, -1, 0, -1, 0, 0, 1, 0 ];
+        // let totalShift = 0;
+
+        for(var i = 0; i < 15; i++)
+        {
+          await c.frameCache.AddFrame();
+
+          for(var j = 0; j < offsets.length; j++)
+          {
+            if(x)
+              c.frameCache.frames[i + 1].ShiftRow(j, offsets[j]);
+            if(y)
+              c.frameCache.frames[i + 1].ShiftCol(j, offsets[j]);
+          }
+
+          // c.frameCache.frames[i + 1].WrapX(shifts[i]);
+          // c.frameCache.frames[i + 1].WrapY(shifts[i]);
+
+          offsets.unshift(offsets.pop());
+        }
+      }
+
+
+      let c = new Canvas(document.getElementById("c"), Constants.PIXELS_PER_SIDE, Constants.PIXELS_PER_SIDE, { spsize: 20, grid: true });
+      let input = new InputManager(c);
+
+      // change color
+      input.AddKeyDown((e, self, user) =>
+      {
+        const type = document.activeElement.getAttribute("type");
+        if(document.activeElement.nodeName === 'INPUT' && (type === 'text' || type === 'number'))
+          return;
+
+        const { pc } = user;
+
+        if(e.keyCode >= 48 && e.keyCode <= 48 + 9)
+          pc.SetCurrentColor(e.keyCode - 48);
+        else if(e.keyCode >= 65 && e.keyCode <= 70)
+          pc.SetCurrentColor(e.keyCode - 65 + 10);
+      }, { pc: c.paletteCache });
+
+      // other controls
+      input.AddKeyDown((e, self, user) =>
+      {
+        if(document.activeElement.nodeName === 'INPUT' && document.activeElement.getAttribute("type") === 'text')
+          return;
+
+        const { canvas, pc } = user;
+
+        switch(e.keyCode)
+        {
+        // ctrl
+        case 17: canvas.SelectColor(self.mouse); break;
+        // w
+        case 87: canvas.AdvanceCurrentFrame(1); break;
+        // q
+        case 81: canvas.AdvanceCurrentFrame(-1); break;
+        // g
+        case 71: canvas.ToggleGrid(); break;
+        // y
+        case 89: canvas.Redo(); break;
+        // z
+        case 90: canvas.Undo(); break;
+        // up
+        case 38: canvas.Shift(0, -1); break;
+        // left
+        case 37: canvas.Shift(-1, 0); break;
+        // down
+        case 40: canvas.Shift(0, 1); break;
+        // right
+        case 39: canvas.Shift(1, 0); break;
+        // r
+        case 82:
+          canvas.selectMode.value = Constants.SELECT_RECT;
+          canvas.toggleSelect.click();
+        break;
+        // t
+        case 84:
+          canvas.selectMode.value = Constants.SELECT_PIXEL;
+          canvas.toggleSelect.click();
+        break;
+        // ,
+        case 188: canvas.mirrorX.checked = !canvas.mirrorX.checked; break;
+        // .
+        case 190: canvas.mirrorY.checked = !canvas.mirrorY.checked; break;
+        }
+      }, { canvas: c, pc: c.paletteCache });
+
+      // draw
+      input.AddMouseDown((e, self, user) =>
+      {
+        const { canvas } = user;
+
+        if(self.mouse.button == 0)
+        {
+          canvas.SetPixel(self.mouse);
+          user.pc.SelectFromCanvases(e, 0);
+        }
+        else if(self.mouse.button == 2)
+        {
+          e.preventDefault();
+          canvas.SetPixel(self.mouse, Constants.COLOR_CLEAR);
+          user.pc.SelectFromCanvases(e, 2);
+        }
+        else if(self.mouse.button === 1)
+        {
+          e.preventDefault();
+          canvas.FloodFill(self.mouse);
+        }
+      }, { canvas: c, pc: c.paletteCache });
+
+      // update frame previews
+      input.AddMouseUp(async (e, self, user) =>
+      {
+        const { canvas } = user;
+
+        if(canvas.MouseInBounds(self.mouse))
+          await canvas.UpdateCurrentFramePreview();
+      }, { canvas: c });
+
+      // drag/color select
+      input.AddMouseMove((e, self, user) =>
+      {
+        const { canvas } = user;
+        // lmb
+        if(e.buttons & 0b1)
+          self.mouse.button = 0;
+        // rmb
+        else if(e.buttons & 0b10)
+          self.mouse.button = 2;
+        // scroll
+        else if(e.buttons & 0b100)
+          self.mouse.button = 1;
+        else
+          self.mouse.button = -1;
+
+        // lmb
+        if(self.mouse.button == 0)
+          canvas.SetPixel(self.mouse);
+        // rmb
+        else if(self.mouse.button == 2)
+          canvas.SetPixel(self.mouse, Constants.COLOR_CLEAR);
+
+        user.pc.UpdateCanvases(e);
+      }, { canvas: c, pc: c.paletteCache });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,98 @@
+*
+{
+  font-family: 'Courier New';
+  color: #eeeeee;
+}
+p
+{
+  margin: 0px;
+}
+div.noSelect
+{
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  margin-top: 10px;
+  margin-left: 10px;
+}
+div.ui-box
+{
+  border: 1px solid grey;
+  border-radius: 3px;
+  margin: 10px;
+  padding: 5px;
+  background-color: #444444;
+}
+div.ui-block
+{
+  margin: 10px;
+}
+div
+{
+  display: inline-block;
+  vertical-align: top;
+}
+body
+{
+  background-color: #222222;
+}
+select
+{
+  background-color: #888888;
+  color: #
+}
+input
+{
+  background-color: #888888;
+}
+input[type = color]
+{
+  margin: 2px;
+}
+input.preview
+{
+  margin: 3px;
+  border: 2px solid black;
+}
+input.preview:hover
+{
+  margin: 3px;
+  border: 2px solid blue;
+}
+input.preview-selected
+{
+  margin: 1px;
+  border: 4px solid blue;
+}
+button
+{
+  background-color: #555555;
+  margin: 2px;
+}
+button.color
+{
+  margin: 2px;
+  border: 1px solid black;
+}
+button.color-selected
+{
+  margin: 1px;
+  border: 2px solid blue;
+}
+table
+{
+  table-layout: fixed;
+  width: 100%;
+}
+td
+{
+  border: 1px solid #999999;
+  border-radius: 3px;
+  background-color: #333333;
+}
+td.title
+{
+  font-weight: bold;
+  text-align: center;
+  font-size: 1vw;
+}
